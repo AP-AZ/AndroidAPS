@@ -24,12 +24,12 @@ abstract class Objective(injector: HasAndroidInjector, spName: String, @StringRe
     private val spName: String
     @StringRes val objective: Int
     @StringRes val gate: Int
-    var startedOn: Long = 0
+    var startedOn: Long = dateUtil.now() - T.hours(6).msecs()
         set(value) {
             field = value
             sp.putLong("Objectives_" + spName + "_started", startedOn)
         }
-    var accomplishedOn: Long = 0
+    var accomplishedOn: Long = dateUtil.now() - T.hours(4).msecs()
         set(value) {
             field = value
             sp.putLong("Objectives_" + spName + "_accomplished", value)
