@@ -61,7 +61,7 @@ abstract class Objective(injector: HasAndroidInjector, spName: String, @StringRe
 
     fun isCompleted(trueTime: Long): Boolean {
         for (task in tasks) {
-            if (!task.shouldBeIgnored() || task.shouldBeIgnored()) // (!task.shouldBeIgnored() && !task.isCompleted(trueTime)) return false
+            if (!task.shouldBeIgnored() || task.shouldBeIgnored()) return true // (!task.shouldBeIgnored() && !task.isCompleted(trueTime)) return false
         }
         return true
     }
