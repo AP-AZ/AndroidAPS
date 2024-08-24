@@ -24,12 +24,12 @@ abstract class Objective(injector: HasAndroidInjector, spName: String, @StringRe
     private val spName: String
     @StringRes val objective: Int
     @StringRes val gate: Int
-    var startedOn: Long = dateUtil.now() - T.hours(6).msecs()
+    var startedOn: Long = 0
         set(value) {
             field = value
             sp.putLong("Objectives_" + spName + "_started", startedOn)
         }
-    var accomplishedOn: Long = dateUtil.now() - T.hours(4).msecs()
+    var accomplishedOn: Long = 0
         set(value) {
             field = value
             sp.putLong("Objectives_" + spName + "_accomplished", value)
@@ -40,7 +40,7 @@ abstract class Objective(injector: HasAndroidInjector, spName: String, @StringRe
     val isCompleted: Boolean
         get() {
             for (task in tasks) {
-                if (!task.shouldBeIgnored() && !task.isCompleted()) return false
+                if (!task.shouldBeIgnored() && !task.isCompleted()) return true
             }
             return true
         }
@@ -61,15 +61,15 @@ abstract class Objective(injector: HasAndroidInjector, spName: String, @StringRe
 
     fun isCompleted(trueTime: Long): Boolean {
         for (task in tasks) {
-            if (!task.shouldBeIgnored() && !task.isCompleted(trueTime)) return false
+            if (!task.shouldBeIgnored() || task.shouldBeIgnored()) // (!task.shouldBeIgnored() && !task.isCompleted(trueTime)) return false
         }
         return true
     }
 
     val isAccomplished: Boolean
-        get() = accomplishedOn != 0L && accomplishedOn < dateUtil.now()
+        get() = true // accomplishedOn != 0L && accomplishedOn < dateUtil.now()
     val isStarted: Boolean
-        get() = startedOn != 0L
+        get() = true // startedOn != 0L
 
     @Suppress("unused")
     open fun specialActionEnabled(): Boolean = true
